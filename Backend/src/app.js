@@ -21,17 +21,25 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/problems", problemRoutes);
-app.use("/topics", topicRoutes);
-app.use("/solutions", solutionRoutes);
-app.use("/datasets", datasetRoutes);
-app.use("/stats", statsRoutes);
-app.use("/auth", authRoutes);
-app.use("/jwt", jwtRoutes);
-app.use("/admin", adminRoutes);
-app.use("/protected", protectedRoutes);
-app.use("/search", searchRoutes);
-app.use("/", systemRoutes);
+// Register routes under multiple prefixes to prevent 404 errors regardless of client configuration
+const registerRoutes = (prefix = "") => {
+  app.use(`${prefix}/problems`, problemRoutes);
+  app.use(`${prefix}/topics`, topicRoutes);
+  app.use(`${prefix}/solutions`, solutionRoutes);
+  app.use(`${prefix}/datasets`, datasetRoutes);
+  app.use(`${prefix}/stats`, statsRoutes);
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/jwt`, jwtRoutes);
+  app.use(`${prefix}/admin`, adminRoutes);
+  app.use(`${prefix}/protected`, protectedRoutes);
+  app.use(`${prefix}/search`, searchRoutes);
+  app.use(`${prefix}/`, systemRoutes);
+};
+
+registerRoutes("/api/v1");
+registerRoutes("/api");
+registerRoutes("");
+
 app.use(errorMiddleware);
 
 module.exports = app;
