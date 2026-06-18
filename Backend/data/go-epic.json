@@ -1,0 +1,37 @@
+[
+  {
+    "instruction": "Write a function 'twoSum(nums, target)' that returns the indices of the two numbers such that they add up to the target.",
+    "topic": "Arrays",
+    "difficulty": "easy",
+    "output": "function twoSum(nums, target) {\n  const map = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    map.set(nums[i], i);\n  }\n  return [];\n}",
+    "source": "leetcode-top-100"
+  },
+  {
+    "instruction": "Implement a function 'isPalindrome(s)' that returns true if a string is a palindrome, ignoring case and non-alphanumeric characters.",
+    "topic": "Strings",
+    "difficulty": "easy",
+    "output": "function isPalindrome(s) {\n  const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, '');\n  return cleaned === cleaned.split('').reverse().join('');\n}",
+    "source": "leetcode-top-100"
+  },
+  {
+    "instruction": "Write a function 'lengthOfLongestSubstring(s)' that finds the length of the longest substring without repeating characters.",
+    "topic": "Strings",
+    "difficulty": "medium",
+    "output": "function lengthOfLongestSubstring(s) {\n  let maxLen = 0;\n  let start = 0;\n  const seen = new Map();\n  for (let i = 0; i < s.length; i++) {\n    if (seen.has(s[i])) {\n      start = Math.max(seen.get(s[i]) + 1, start);\n    }\n    seen.set(s[i], i);\n    maxLen = Math.max(maxLen, i - start + 1);\n  }\n  return maxLen;\n}",
+    "source": "leetcode-top-100"
+  },
+  {
+    "instruction": "Implement a function 'maxSubArray(nums)' to find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
+    "topic": "Dynamic Programming",
+    "difficulty": "medium",
+    "output": "function maxSubArray(nums) {\n  let maxSum = nums[0];\n  let currentSum = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    currentSum = Math.max(nums[i], currentSum + nums[i]);\n    maxSum = Math.max(maxSum, currentSum);\n  }\n  return maxSum;\n}",
+    "source": "leetcode-top-100"
+  },
+  {
+    "instruction": "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where '.' matches any single character and '*' matches zero or more of the preceding element.",
+    "topic": "Dynamic Programming",
+    "difficulty": "advanced",
+    "output": "function isMatch(s, p) {\n  const dp = Array(s.length + 1).fill(null).map(() => Array(p.length + 1).fill(false));\n  dp[0][0] = true;\n  for (let j = 2; j <= p.length; j++) {\n    if (p[j - 1] === '*') {\n      dp[0][j] = dp[0][j - 2];\n    }\n  }\n  for (let i = 1; i <= s.length; i++) {\n    for (let j = 1; j <= p.length; j++) {\n      if (p[j - 1] === '.' || p[j - 1] === s[i - 1]) {\n        dp[i][j] = dp[i - 1][j - 1];\n      } else if (p[j - 1] === '*') {\n        dp[i][j] = dp[i][j - 2] || ((p[j - 2] === '.' || p[j - 2] === s[i - 1]) && dp[i - 1][j]);\n      }\n    }\n  }\n  return dp[s.length][p.length];\n}",
+    "source": "leetcode-top-100"
+  }
+]

@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
 
@@ -34,10 +33,5 @@ app.use("/protected", protectedRoutes);
 app.use("/search", searchRoutes);
 app.use("/", systemRoutes);
 app.use(errorMiddleware);
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
 
 module.exports = app;
